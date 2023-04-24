@@ -5,21 +5,23 @@
 #include <ESPAsyncWebServer.h>
 #include <ESPAsyncWiFiManager.h>
 #include <AsyncElegantOTA.h>
-#include <HueBridgeServer.h>
+#include "controllers/HueBridgeController.h"
 
 AsyncWebServer server(80);
+HueBridgeController hueServer(&server, "ATHOM Hue Bridge");
 
-HueBridgeServer hueServer(&server, "ATHOM Hue Bridge");
 
+constexpr auto LED_PIN = LED_BUILTIN;
+// constexpr auto LED_PIN = 4;
 
 void setup() {
   Serial.begin(115200);
   Serial.println("Booting");
 
   analogWriteFreq(977);
-  pinMode(4, OUTPUT);
-  analogWrite(4, 0);
-  analogWrite(4, 10);
+  pinMode(LED_PIN, OUTPUT);
+  analogWrite(LED_PIN, 0);
+  analogWrite(LED_PIN, 40);
 
 
   WiFi.mode(WIFI_STA);
@@ -62,7 +64,7 @@ void setup() {
 
   server.begin();
   Serial.println("HTTP server started");
-  analogWrite(4, 0);
+  analogWrite(LED_PIN, 0);
 }
 
 void loop() {
