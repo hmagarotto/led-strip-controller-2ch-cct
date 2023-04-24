@@ -7,44 +7,44 @@
 
 struct LightDevice
 {
-    const char* type;
+    const char* type = "Color temperature light";
     const char* name;
-    const char* modelid;
+    const char* modelid = "LTW001";
+    const char* productname = "Hue A19 White Ambiance";
     const char* uniqueid;
-    const char* manufacturername;
-    const char* productname;
-    const char* swversion;
+    const char* manufacturername = "Signify Netherlands B.V.";
+    const char* swversion = "1.90.1";
 
     struct SWUpdate {
-        const char* noupdates;
-        const char* lastinstall;
-    } swupdate;
+        const char* state = "noupdates";
+        const char* lastinstall = "2020-12-09T19:13:52";
+    } swupdate = {};
 
     struct Capabilities {
-        bool certified;
+        bool certified = true;
         struct Control {
-            uint16_t mindimlevel;
-            uint16_t maxlumen;
+            uint16_t mindimlevel = 1000;
+            uint16_t maxlumen = 806;
             struct CT {
-                uint16_t min;
-                uint16_t max;
-            } ct;
-        } control;
+                uint16_t min = 153;
+                uint16_t max = 454;
+            } ct = {};
+        } control = {};
         struct Streaming {
-            bool renderer;
-            bool proxy;
-        } streaming;
-    } capabilities;
+            bool renderer = false;
+            bool proxy = false;
+        } streaming = {};
+    } capabilities = {};
 
     struct Config {
-        const char* archetype;
-        const char* function;
-        const char* direction;
+        const char* archetype = "classicbulb";
+        const char* function = "functional";
+        const char* direction = "omnidirectional";
         struct Startup {
-            const char* mode;
-            bool configured;
-        } startup;
-    } config;
+            const char* mode = "safety";
+            bool configured = true;
+        } startup = {};
+    } config = {};
 };
 
 #endif
