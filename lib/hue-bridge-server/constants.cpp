@@ -1,5 +1,17 @@
 #include "constants.h"
 
+const char UDP_SEARCH_RESPONSE[] PROGMEM = 
+"HTTP/1.1 200 OK\r\n"
+"EXT:\r\n"
+"CACHE-CONTROL: max-age=100\r\n" // SSDP_INTERVAL
+"LOCATION: http://%d.%d.%d.%d:%d/description.xml\r\n"
+"SERVER: FreeRTOS/6.0.5, UPnP/1.0, IpBridge/1.17.0\r\n" // _modelName, _modelNumber
+"hue-bridgeid: %s\r\n"
+"ST: urn:schemas-upnp-org:device:Basic:1\r\n"  // _deviceType
+"USN: uuid:2f402f80-da50-11e1-9b23-%s::upnp:rootdevice\r\n" // _uuid::_deviceType
+"\r\n";
+const size_t UDP_SEARCH_RESPONSE_SZ = sizeof(UDP_SEARCH_RESPONSE);
+
 
 const char DESCRIPTION_XML[] PROGMEM = R"(<?xml version="1.0" encoding="UTF-8" ?>
 <root xmlns="urn:schemas-upnp-org:device-1-0">
