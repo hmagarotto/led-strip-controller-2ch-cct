@@ -1,38 +1,21 @@
 #include "HueBridgeController.h"
 
-#include "DevicesConfig.h"
-
-HueBridgeController::HueBridgeController(AsyncWebServer *server, String&& name):
-        HueBridgeServer(server, std::move(name))
+HueBridgeController::HueBridgeController(AsyncWebServer *server, StateController& stateController, String&& name):
+        HueBridgeServer(server, std::move(name)),
+        _stateController(stateController)
 {
 }
 
 HueBridgeController::~HueBridgeController() {
-
-}
-
-void HueBridgeController::setLightState(uint8_t id, LightState state) {
-    if (id >= lightNum) {
-        return;
-    }
-    lightStateList[id] = state;
-}
-
-const LightState* HueBridgeController::getLightState(uint8_t id) {
-    if (id >= lightNum) {
-        return NULL;
-    }
-    return &lightStateList[id];
-    
 }
 
 const LightDevice* HueBridgeController::getLightDevice(uint8_t id) {
-    if (id >= lightNum) {
+    if (id >= DevicesConfig::lightNum) {
         return NULL;
     }
-    return &lightDeviceList[id];
+    return &DevicesConfig::lightDeviceList[id];
 }
 
-size_t HueBridgeController::getLightDeviceNum() {
-    return lightNum;
+uint8_t HueBridgeController::getLightDeviceNum() {
+    return DevicesConfig::lightNum;
 }
