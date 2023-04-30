@@ -19,4 +19,13 @@ struct LightState
     bool reachable = true;
 };
 
+enum LightStateUpdateField {
+  on  = 0x01,
+  bri = 0x02,
+  hue = 0x04,
+  sat = 0x08,
+  xy  = 0x10,
+  ct  = 0x20
+};
+
 #endif
