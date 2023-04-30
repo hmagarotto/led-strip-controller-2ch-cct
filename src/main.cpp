@@ -5,10 +5,13 @@
 #include <ESPAsyncWebServer.h>
 #include <ESPAsyncWiFiManager.h>
 #include <AsyncElegantOTA.h>
+
 #include "controllers/HueBridgeController.h"
+#include "controllers/StateController.h"
 
 AsyncWebServer server(80);
-HueBridgeController hueServer(&server, "ATHOM Hue Bridge");
+StateController stateController;
+HueBridgeController hueController(&server, stateController, "ATHOM Hue Bridge");
 
 
 constexpr auto LED_PIN = LED_BUILTIN;
@@ -20,8 +23,9 @@ void setup() {
 
   analogWriteFreq(977);
   pinMode(LED_PIN, OUTPUT);
-  analogWrite(LED_PIN, 0);
-  analogWrite(LED_PIN, 40);
+  // analogWrite(LED_PIN, 0);
+  // analogWrite(LED_PIN, 40);
+  digitalWrite(LED_PIN, 0);
 
 
   WiFi.mode(WIFI_STA);
@@ -50,9 +54,8 @@ void setup() {
     request->send(200, "text/plain", "Hi! This is a sample response updated 3.");
   });
 
+  hueController.setup();
   AsyncElegantOTA.begin(&server);    // Start AsyncElegantOTA
-
-  hueServer.setup();
 
   server.onNotFound([](AsyncWebServerRequest *request) {
     if (request->method() == HTTP_OPTIONS) {
@@ -64,9 +67,26 @@ void setup() {
 
   server.begin();
   Serial.println("HTTP server started");
-  analogWrite(LED_PIN, 0);
+  //analogWrite(LED_PIN, 0);
+  digitalWrite(LED_PIN, 1);
 }
 
 void loop() {
-  delay(1000);
+  static constexpr unsigned long maxDelayValue = 50;
+  static unsigned long delayValue = maxDelayValue;
+  bool worked = false;
+
+  // work
+  worked = stateController.run() || worked;
+  yield();
+  worked = hueController.run() || worked;
+
+  // delay || yield
+  if (worked) {
+    delayValue = 0;
+    yield();
+  } else {
+    if (delayValue < maxDelayValue) delayValue++;
+    delay(delayValue);
+  }
 }
