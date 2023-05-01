@@ -8,7 +8,7 @@
 class Light : public LightBase
 {
 public:
-    Light();
+    Light(uint8_t pin, bool inversePolarity);
     virtual ~Light();
 
     virtual void setup();
@@ -17,8 +17,8 @@ public:
 
 private:
     uint8_t _pin;
-    bool _on = false;
     bool _inversePolarity = false;
+    bool _on = false;
 
     bool physicalState(bool logicalState) {
         return _inversePolarity != logicalState;

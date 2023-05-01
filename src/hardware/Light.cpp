@@ -1,7 +1,8 @@
 #include "Light.h"
 #include "Arduino.h"
 
-Light::Light()
+Light::Light(uint8_t pin, bool inversePolarity) :
+  _pin(pin), _inversePolarity(inversePolarity)
 {
 }
 
