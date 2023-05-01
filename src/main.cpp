@@ -6,11 +6,13 @@
 #include <ESPAsyncWiFiManager.h>
 #include <AsyncElegantOTA.h>
 
-#include "controllers/HueBridgeController.h"
 #include "controllers/StateController.h"
+#include "controllers/HardwareController.h"
+#include "controllers/HueBridgeController.h"
 
 AsyncWebServer server(80);
 StateController stateController;
+HardwareController hardwareController(stateController);
 HueBridgeController hueController(&server, stateController, "ATHOM Hue Bridge");
 
 
@@ -54,6 +56,7 @@ void setup() {
     request->send(200, "text/plain", "Hi! This is a sample response updated 3.");
   });
 
+  hardwareController.setup();
   hueController.setup();
   AsyncElegantOTA.begin(&server);    // Start AsyncElegantOTA
 
