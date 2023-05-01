@@ -12,7 +12,7 @@ StateController::~StateController()
 
 LightState StateController::updateLightState(StateChangeSource changeSource, uint8_t index, LightState& update, uint8_t fields) {
   auto newState = DevicesConfig::updateLightState(index, update, fields);
-  while(!_changeQueue.push({changeSource, newState })) {
+  while(!_changeQueue.push({changeSource, index, newState })) {
     // ensure enqueuing of last status, even if we miss some changes
     _changeQueue.pop();
   }

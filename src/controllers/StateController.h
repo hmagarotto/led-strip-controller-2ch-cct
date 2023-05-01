@@ -21,6 +21,7 @@ public:
     };
     struct StateChangeEvent {
         StateChangeSource source;
+        uint8_t lightId;
         LightState newState;
     };
 
