@@ -30,8 +30,6 @@ void PathParamsToQueryParams::addRule(const char* from, const char* to, WebReque
 }
 
 bool PathParamsToQueryParams::match(AsyncWebServerRequest *request) {
-    Serial.printf("URL MATCH START\n");
-
      String url = request->url();
      String reqParams = "";
      int index = url.indexOf('?');
@@ -69,7 +67,6 @@ bool PathParamsToQueryParams::match(AsyncWebServerRequest *request) {
           if (!this->_params.isEmpty()) this->_params += "&";
           _params += reqParams;
      }
-    Serial.printf("URL MATCH FINISH\n");
      return true;
 }
 

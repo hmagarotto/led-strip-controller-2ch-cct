@@ -56,7 +56,6 @@ String HueBridgeServer::handleDescriptionTemplate(const String& param) {
 }
 
 void HueBridgeServer::handleDescription(AsyncWebServerRequest *request) {
-    Serial.printf("HTTP GET DESCRIPTION\n");
     request->send_P(
         200,
         "text/xml",
@@ -66,15 +65,10 @@ void HueBridgeServer::handleDescription(AsyncWebServerRequest *request) {
 }
 
 void HueBridgeServer::handleNewUser(AsyncWebServerRequest *request) {
-    Serial.printf("HTTP POST USER\n");
     request->send_P(200, "application/json", USER_RESPONSE);
 }
 
 void HueBridgeServer::handleLightDeviceRequest(AsyncWebServerRequest *request) {
-    // const auto startTs = micros64();
-    // Serial.printf("start heap size: %u\n", ESP.getFreeHeap());
-    digitalWrite(LED_BUILTIN, 0);
-    Serial.printf("HTTP GET DEVICE\n");
     const auto lightIdParam = request->getParam("lightId");
     if (!lightIdParam) {
         request->send(400, "text/plain", "Missing lightId param");
@@ -95,15 +89,9 @@ void HueBridgeServer::handleLightDeviceRequest(AsyncWebServerRequest *request) {
     String output;
     serializeJson(doc, output);
     request->send(200, "application/json", output);
-    // const auto elapsed = micros64() - startTs;
-    // Serial.printf("elapsed: %llums\n", elapsed); 
-    // Serial.printf("finish heap size: %u\n", ESP.getFreeHeap());
-    Serial.printf("HTTP GET DEVICE FINISH\n");
-    digitalWrite(LED_BUILTIN, 1);
 }
 
 void  HueBridgeServer::handleLightDeviceListRequest(AsyncWebServerRequest *request) {
-    Serial.printf("HTTP GET DEVICE LIST\n");
     size_t deviceNum = this->getLightDeviceNum();
     DynamicJsonDocument doc(2048);
     for (size_t id = 0; id<deviceNum; id++) {
@@ -119,7 +107,6 @@ void  HueBridgeServer::handleLightDeviceListRequest(AsyncWebServerRequest *reque
 }
 
 void  HueBridgeServer::handleLightStateRequest(AsyncWebServerRequest *request) {
-    Serial.printf("HTTP GET STATE\n");
     const auto lightIdParam = request->getParam("lightId");
     if (!lightIdParam) {
         request->send(400, "text/plain", "Missing lightId param");
@@ -149,8 +136,6 @@ void HueBridgeServer::handleLightStateChangeRequestBody(AsyncWebServerRequest *r
 }
 
 void HueBridgeServer::handleLightStateChangeRequest(AsyncWebServerRequest *request) {
-    Serial.printf("HTTP PUT STATE\n");
-
     const auto lightIdParam = request->getParam("lightId");
     if (!lightIdParam) {
         request->send(400, "text/plain", "Missing lightId param");
