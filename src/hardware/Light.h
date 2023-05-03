@@ -15,7 +15,7 @@ public:
     virtual void setState(const LightState& state);
     virtual bool run();
 
-private:
+protected:
     uint8_t _pin;
     bool _inversePolarity = false;
     bool _on = false;
