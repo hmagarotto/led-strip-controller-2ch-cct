@@ -26,3 +26,11 @@ void HardwareController::stateChange(const StateController::StateChangeEvent& ev
   auto light = lights[event.lightId];
   light->setState(event.newState);
 }
+
+bool HardwareController::run() {
+  bool result = false;
+  for (auto light : lights) {
+    result = light->run() || result;
+  }
+  return result;
+}

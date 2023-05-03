@@ -82,6 +82,8 @@ void loop() {
   // work
   worked = stateController.run() || worked;
   yield();
+  worked = hardwareController.run() || worked;
+  yield();
   worked = hueController.run() || worked;
 
   // delay || yield

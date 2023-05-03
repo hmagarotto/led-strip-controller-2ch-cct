@@ -11,6 +11,7 @@ public:
     HardwareController(StateController& stateController);
     ~HardwareController();
     void setup();
+    bool run();
 
 private:
     StateController& _stateController;
