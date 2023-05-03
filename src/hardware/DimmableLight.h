@@ -8,7 +8,7 @@
 class DimmableLight : public LightBase
 {
 public:
-    DimmableLight(uint8_t pin, bool inversePolarity);
+    DimmableLight(uint8_t pin, bool inversePolarity, uint16_t transitionTimeMs = 4000);
     virtual ~DimmableLight();
 
     virtual void setup();
@@ -17,17 +17,22 @@ public:
 
 protected:
     void setHardware();
+
+    // config
     uint8_t _pin;
-    bool _inversePolarity = false;
+    bool _inversePolarity;
+    uint16_t _transitionTimeMs;
+
+    // control
     bool _running = false;
-    uint16_t _transitionTimeMs = 4000;
-    uint8_t _transitionSteps;
+    uint8_t _transitionInc;
     uint16_t _transitionDelayMs;
     unsigned long _nextChangeAtMs;
-    struct State {
-        bool on;
-        int16_t bri;
-    } _current = {false, 0}, _desired = {false, 0};
+
+    // state
+    bool _on = false;
+    int16_t _currentBri = 0;
+    int16_t _desiredBri = 0;
 };
 
 #endif

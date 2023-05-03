@@ -3,8 +3,9 @@
 #include <gamma_correction.h>
 #include "DimmableLight.h"
 
-DimmableLight::DimmableLight(uint8_t pin, bool inversePolarity) :
-    _pin(pin), _inversePolarity(inversePolarity)
+
+DimmableLight::DimmableLight(uint8_t pin, bool inversePolarity, uint16_t transitionTimeMs) :
+    _pin(pin), _inversePolarity(inversePolarity), _transitionTimeMs(transitionTimeMs)
 {
 }
 
@@ -19,20 +20,24 @@ void DimmableLight::setup() {
 }
 
 void DimmableLight::setState(const LightState& state) {
-    _desired.on = state.on;
-    _desired.bri = map(state.bri, 0, 255, 0, 1024);
+    _on = state.on;
+    _desiredBri = map(state.bri, 0, 255, 0, 1024);
     uint16_t totalDiff = 0;
-    if (_desired.on) {
-        totalDiff =  abs(_desired.bri - _current.bri);
+    if (_on) {
+        totalDiff =  abs(_desiredBri - _currentBri);
     } else {
-        totalDiff = _current.bri;
+        totalDiff = _currentBri;
     }
-    _transitionSteps = 0;
+    if (totalDiff == 0) {
+        _running = false;
+        return;
+    }
+    _transitionInc = 0;
     do {
-        _transitionSteps++;
-        _transitionDelayMs = _transitionSteps * _transitionTimeMs / totalDiff;
+        _transitionInc++;
+        _transitionDelayMs = _transitionInc * _transitionTimeMs / totalDiff;
     } while (_transitionDelayMs<10);
-    Serial.printf("totalDiff:[%hu] transitionSteps:[%hhu] transitionDelayMs:[%hu]\n", totalDiff, _transitionSteps, _transitionDelayMs);
+    Serial.printf("totalDiff:[%hu] transitionSteps:[%hhu] transitionDelayMs:[%hu]\n", totalDiff, _transitionInc, _transitionDelayMs);
     _nextChangeAtMs = millis() + _transitionDelayMs;
     _running = true;
 }
@@ -44,25 +49,23 @@ bool DimmableLight::run() {
     if (millis() > _nextChangeAtMs) {
         return false;
     }
-    if (_desired.on) {
-        if (_current.bri < _desired.bri) {
-            _current.bri+=_transitionSteps;
-            if (_current.bri > _desired.bri) _current.bri = _desired.bri;
-        } else if (_current.bri > _desired.bri) {
-            _current.bri-=_transitionSteps;
-            if (_current.bri < _desired.bri) _current.bri = _desired.bri;
+    if (_on) {
+        if (_currentBri < _desiredBri) {
+            _currentBri+=_transitionInc;
+            if (_currentBri > _desiredBri) _currentBri = _desiredBri;
+        } else if (_currentBri > _desiredBri) {
+            _currentBri-=_transitionInc;
+            if (_currentBri < _desiredBri) _currentBri = _desiredBri;
         }
-        if (_current.bri == _desired.bri) {
-            _current.on = _desired.on;
+        if (_currentBri == _desiredBri) {
             _running = false;
         }
     } else {
-        if (_current.bri > 0) {
-            _current.bri-=_transitionSteps;
-            if (_current.bri < 0) _current.bri = 0;
+        if (_currentBri > 0) {
+            _currentBri-=_transitionInc;
+            if (_currentBri < 0) _currentBri = 0;
         }
-        if (_current.bri == 0) {
-            _current.on = _desired.on;
+        if (_currentBri == 0) {
             _running = false;
         }
     }
@@ -72,8 +75,8 @@ bool DimmableLight::run() {
 }
 
 void DimmableLight::setHardware() {
-    Serial.println(_current.bri);
-    int bri = pgm_read_word(&gamma_correction::lut[_current.bri]);
+    Serial.println(_currentBri);
+    int bri = pgm_read_word(&gamma_correction::lut[_currentBri]);
     int pwmValue = _inversePolarity ? gamma_correction::max - bri : bri;
     analogWriteMode(_pin, pwmValue, _inversePolarity);
 }
