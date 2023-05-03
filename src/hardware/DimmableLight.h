@@ -8,7 +8,7 @@
 class DimmableLight : public LightBase
 {
 public:
-    DimmableLight(uint8_t pin, bool inversePolarity, uint16_t transitionTimeMs = 4000);
+    DimmableLight(uint8_t pin, bool inversePolarity, uint16_t transitionTimeMs = 2000);
     virtual ~DimmableLight();
 
     virtual void setup();

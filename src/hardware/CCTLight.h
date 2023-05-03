@@ -11,7 +11,7 @@ class CCTLight : public LightBase
 public:
     static constexpr size_t channels = 2;
 
-    CCTLight(const uint8_t pin[channels], const bool inversePolarity[channels], uint16_t transitionTimeMs = 4000);
+    CCTLight(const uint8_t pin[channels], const bool inversePolarity[channels], uint16_t transitionTimeMs = 2000);
     virtual ~CCTLight();
 
     virtual void setup();
