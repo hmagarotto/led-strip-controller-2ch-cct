@@ -68,7 +68,7 @@ void CCTLight::setState(const LightState& state) {
             transitionInc++;
             transitionDelayMs = transitionInc * _transitionTimeMs / totalDiff;
         } while (transitionDelayMs<10);
-        nextChangeAtMs = millis() + transitionDelayMs;
+        nextChangeAtMs = millis();
         running = true;
     }
 }
@@ -88,7 +88,7 @@ bool CCTLight::run(size_t ch) {
     }
 
     auto& nextChangeAtMs = _control[ch].nextChangeAtMs;
-    if (millis() > nextChangeAtMs) {
+    if (millis() < nextChangeAtMs) {
         return false;
     }
 

@@ -38,7 +38,7 @@ void DimmableLight::setState(const LightState& state) {
         _transitionDelayMs = _transitionInc * _transitionTimeMs / totalDiff;
     } while (_transitionDelayMs<10);
     Serial.printf("totalDiff:[%hu] transitionSteps:[%hhu] transitionDelayMs:[%hu]\n", totalDiff, _transitionInc, _transitionDelayMs);
-    _nextChangeAtMs = millis() + _transitionDelayMs;
+    _nextChangeAtMs = millis();
     _running = true;
 }
 
@@ -46,7 +46,7 @@ bool DimmableLight::run() {
     if (!_running) {
         return false;
     }
-    if (millis() > _nextChangeAtMs) {
+    if (millis() < _nextChangeAtMs) {
         return false;
     }
     if (_on) {
