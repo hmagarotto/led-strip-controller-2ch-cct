@@ -16,19 +16,12 @@ HardwareController hardwareController(stateController);
 HueBridgeController hueController(&server, stateController, "ATHOM Hue Bridge");
 
 
-constexpr auto LED_PIN = LED_BUILTIN;
-// constexpr auto LED_PIN = 4;
-
 void setup() {
   Serial.begin(115200);
   Serial.println("Booting");
 
   analogWriteFreq(977);
-  pinMode(LED_PIN, OUTPUT);
-  // analogWrite(LED_PIN, 0);
-  // analogWrite(LED_PIN, 40);
-  digitalWrite(LED_PIN, 0);
-
+  analogWriteResolution(10);
 
   WiFi.mode(WIFI_STA);
 
@@ -70,8 +63,6 @@ void setup() {
 
   server.begin();
   Serial.println("HTTP server started");
-  //analogWrite(LED_PIN, 0);
-  digitalWrite(LED_PIN, 1);
 }
 
 void loop() {
