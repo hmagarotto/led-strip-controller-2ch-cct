@@ -62,7 +62,7 @@ bool SSDPDiscovery::run() {
         );
         for (auto i = 0; i < 2; i++) {
             if(udp.writeTo((const uint8_t*)body, strlen(body), response.remoteIP, response.remotePort) > 0) {
-                Serial.printf("SSDP response sent to %s:%d\r\n", response.remoteIP.toString().c_str(), response.remotePort);
+                // Serial.printf("SSDP response sent to %s:%d\r\n", response.remoteIP.toString().c_str(), response.remotePort);
             } else {
                 Serial.printf("SSDP response failed\r\n");
             }
