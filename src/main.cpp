@@ -66,8 +66,9 @@ void setup() {
 }
 
 void loop() {
-  static constexpr unsigned long maxDelayValue = 50;
-  static unsigned long delayValue = maxDelayValue;
+  static constexpr float maxDelayValue = 50;
+  static constexpr float delayInc = 0.1;
+  static float delayValue = maxDelayValue;
   bool worked = false;
 
   // work
@@ -79,10 +80,10 @@ void loop() {
 
   // delay || yield
   if (worked) {
-    delayValue = 0;
+    delayValue = 1;
     yield();
   } else {
-    if (delayValue < maxDelayValue) delayValue++;
+    if (delayValue < maxDelayValue) delayValue += delayInc;
     delay(delayValue);
   }
 }
