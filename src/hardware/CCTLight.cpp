@@ -3,7 +3,9 @@
 #include <gamma_correction.h>
 #include "CCTLight.h"
 
-CCTLight::CCTLight(const uint8_t pin[channels], const bool inversePolarity[channels], uint16_t transitionTimeMs) :
+CCTLight::CCTLight(const uint8_t pin[channels], const bool inversePolarity[channels], uint8_t ctBlend, bool gammaCorrection, uint16_t transitionTimeMs) :
+    _ctBlend(ctBlend),
+    _gammaCorrection(gammaCorrection),
     _transitionTimeMs(transitionTimeMs)
 {
     for (size_t ch=0; ch<channels; ch++) {
@@ -54,6 +56,7 @@ void CCTLight::setState(const LightState& state) {
         auto& transitionInc = _control[ch].transitionInc;
         auto& transitionDelayMs = _control[ch].transitionDelayMs;
         auto& nextChangeAtMs = _control[ch].nextChangeAtMs;
+        auto& start = _control[ch].start;
         if (_on) {
             totalDiff =  abs(desiredBri - currentBri);
         } else {
@@ -64,11 +67,16 @@ void CCTLight::setState(const LightState& state) {
             continue;
         }
         transitionInc = 0;
-        do {
-            transitionInc++;
-            transitionDelayMs = transitionInc * _transitionTimeMs / totalDiff;
-        } while (transitionDelayMs<10);
-        nextChangeAtMs = millis();
+        transitionDelayMs = 0;
+        if (totalDiff-1 > 0) {
+            do {
+                transitionInc++;
+                transitionDelayMs = transitionInc * _transitionTimeMs / (totalDiff-1);
+            } while (transitionDelayMs<10);
+        }
+        Serial.printf("ch[%u] current:[%u] desired:[%u]\n", ch, currentBri, desiredBri);
+        Serial.printf("ch[%u] totalDiff:[%hu] transitionSteps:[%hhu] transitionDelayMs:[%hu]\n", ch, totalDiff, transitionInc, transitionDelayMs);
+        start = nextChangeAtMs = millis();
         running = true;
     }
 }
@@ -77,6 +85,9 @@ bool CCTLight::run() {
     bool result = false;
     for (size_t ch=0; ch<channels; ch++) {
         result = run(ch) || result;
+    }
+    if (result) {
+        Serial.printf("COLD=>%hu WARM=>%hu\r\n", _state[0].currentBri, _state[1].currentBri);
     }
     return result;
 }
@@ -119,11 +130,17 @@ bool CCTLight::run(size_t ch) {
     }
     setHardware(ch);
     nextChangeAtMs = millis() + transitionDelayMs;
+    if (!running) {
+        auto diff = millis() - _control[ch].start;
+        Serial.printf("Runtime[%u]: %lums\n", ch, diff);
+    }
     return true;
 }
 
 void CCTLight::setHardware(size_t ch) {
-    int bri = pgm_read_word(&gamma_correction::lut[_state[ch].currentBri]);
-    int pwmValue = _inversePolarity[ch] ? gamma_correction::max - bri : bri;
+    int bri = _gammaCorrection ?
+        pgm_read_word(&gamma_correction::lut[_state[ch].currentBri]) :
+        _state[ch].currentBri;
+    int pwmValue = _inversePolarity[ch] ? 1023 - bri : bri;
     analogWriteMode(_pin[ch], pwmValue, _inversePolarity[ch]);
 }
