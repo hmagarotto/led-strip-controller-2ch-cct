@@ -15,7 +15,6 @@ DimmableLight::~DimmableLight()
 
 void DimmableLight::setup() {
     pinMode(_pin, OUTPUT);
-    analogWriteResolution(10);
     setHardware();
 }
 
@@ -33,12 +32,16 @@ void DimmableLight::setState(const LightState& state) {
         return;
     }
     _transitionInc = 0;
-    do {
-        _transitionInc++;
-        _transitionDelayMs = _transitionInc * _transitionTimeMs / totalDiff;
-    } while (_transitionDelayMs<10);
+    _transitionDelayMs = 0;
+    if (totalDiff-1 > 0) {
+        do {
+            _transitionInc++;
+            _transitionDelayMs = _transitionInc * _transitionTimeMs / (totalDiff-1);
+        } while (_transitionDelayMs<10);
+    }
+    Serial.printf("current:[%u] desired:[%u]\n", _currentBri, _desiredBri);
     Serial.printf("totalDiff:[%hu] transitionSteps:[%hhu] transitionDelayMs:[%hu]\n", totalDiff, _transitionInc, _transitionDelayMs);
-    _nextChangeAtMs = millis();
+    _start = _nextChangeAtMs = millis();
     _running = true;
 }
 
@@ -71,6 +74,10 @@ bool DimmableLight::run() {
     }
     setHardware();
     _nextChangeAtMs = millis() + _transitionDelayMs;
+    if (!_running) {
+        auto diff = millis() - _start;
+        Serial.printf("Runtime: %lums\n", diff);
+    }
     return true;
 }
 

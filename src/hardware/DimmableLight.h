@@ -33,6 +33,7 @@ protected:
     bool _on = false;
     int16_t _currentBri = 0;
     int16_t _desiredBri = 0;
+    unsigned long _start;
 };
 
 #endif
