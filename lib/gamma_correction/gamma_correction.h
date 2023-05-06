@@ -9,7 +9,6 @@
 namespace gamma_correction {
 
 // Gamma brightness lookup table <https://victornpb.github.io/gamma-table-generator>
-// gamma = 2.00 steps = 1024 range = 0-1023
 
 extern const float value;
 extern const uint16_t steps;
