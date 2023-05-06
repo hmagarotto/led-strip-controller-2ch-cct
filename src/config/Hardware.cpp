@@ -1,8 +1,8 @@
 #include "Hardware.h"
-#include "../hardware/Light.h"
+#include "../hardware/CCTLight.h"
 #include "../hardware/DimmableLight.h"
 
 const std::array<LightBase*, 2> lights =  {
-  new Light(2, true),
-  new DimmableLight(2, true),
+  new CCTLight((const uint8_t[]){12,13}, (const bool[]){false,false}),
+  new CCTLight((const uint8_t[]){4,14}, (const bool[]){false,false}),
 };
