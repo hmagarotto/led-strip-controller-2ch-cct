@@ -65,25 +65,38 @@ void setup() {
   Serial.println("HTTP server started");
 }
 
-void loop() {
+void loopDelay(bool worked) {
   static constexpr float maxDelayValue = 50;
   static constexpr float delayInc = 0.1;
   static float delayValue = maxDelayValue;
-  bool worked = false;
 
-  // work
-  worked = stateController.run() || worked;
-  yield();
-  worked = hardwareController.run() || worked;
-  yield();
-  worked = hueController.run() || worked;
-
-  // delay || yield
   if (worked) {
     delayValue = 1;
-    yield();
-  } else {
-    if (delayValue < maxDelayValue) delayValue += delayInc;
-    delay(delayValue);
+    return;
   }
+
+  if (delayValue < maxDelayValue) {
+    delayValue += delayInc;
+  }
+  delay(delayValue);
+}
+
+void loop() {
+  static std::array<std::function<bool()>, 3> runners = {
+    std::bind(&StateController::run, &stateController),
+    std::bind(&HardwareController::run, &hardwareController),
+    std::bind(&HueBridgeController::run, &hueController),
+  };
+
+  // work
+  bool worked = false;
+  for (auto runner : runners) {
+    if (runner()) {
+      yield();
+      worked = true;
+    }
+  }
+
+  // delay
+  loopDelay(worked);
 }
