@@ -6,13 +6,17 @@ A firmware project to control 2 CCT lights using the [Athom RGBW controller](htt
 
 - [X] WiFiManager
 - [X] OTA
+    - [ ] Replace AsyncElegantOTA
 - [ ] WDT
 - [ ] Hue discovery
-- [ ] Hue API
-- [ ] Light devices
+    - [X] SSDP
+    - [ ] mDNS
+- [X] Hue API
+- [X] Light devices
+- [X] Switches
 - [ ] Web interface
 - [ ] MQTT events
-- [ ] Mutidevice sync using UDP multicast
+- [ ] Multi-device sync
 - [ ] Logger
 
 ## References
@@ -21,7 +25,8 @@ A firmware project to control 2 CCT lights using the [Athom RGBW controller](htt
     * https://arduino-esp8266.readthedocs.io/en/latest/index.html
 * Dependencies
     * https://github.com/me-no-dev/ESPAsyncTCP
-    * https://github.com/me-no-dev/ESPAsyncWebServer
+    * ~~https://github.com/me-no-dev/ESPAsyncWebServer~~
+    * https://github.com/Aircoookie/ESPAsyncWebServer
     * https://github.com/alanswx/ESPAsyncWiFiManager
     * https://github.com/ayushsharma82/AsyncElegantOTA
 * Other projects for reference
