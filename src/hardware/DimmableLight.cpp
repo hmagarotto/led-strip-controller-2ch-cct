@@ -38,6 +38,9 @@ void DimmableLight::setState(const LightState& state) {
             _transitionInc++;
             _transitionDelayMs = _transitionInc * _transitionTimeMs / (totalDiff-1);
         } while (_transitionDelayMs<10);
+        if (_transitionDelayMs > _maxTransitionDelayMs) {
+            _transitionDelayMs = _maxTransitionDelayMs;
+        }
     }
     Serial.printf("current:[%u] desired:[%u]\n", _currentBri, _desiredBri);
     Serial.printf("totalDiff:[%hu] transitionSteps:[%hhu] transitionDelayMs:[%hu]\n", totalDiff, _transitionInc, _transitionDelayMs);

@@ -31,6 +31,7 @@ protected:
     uint8_t _ctBlend; // 0 - linear (CCT 127 = 50% warm, 50% cold), 127 - additive CCT blending (CCT 127 = 100% warm, 100% cold)
     bool _gammaCorrection;
     uint16_t _transitionTimeMs;
+    static constexpr uint16_t _maxTransitionDelayMs = 100;
 
     // control
     struct Control {

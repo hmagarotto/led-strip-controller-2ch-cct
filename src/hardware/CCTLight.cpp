@@ -73,6 +73,9 @@ void CCTLight::setState(const LightState& state) {
                 transitionInc++;
                 transitionDelayMs = transitionInc * _transitionTimeMs / (totalDiff-1);
             } while (transitionDelayMs<10);
+            if (transitionDelayMs > _maxTransitionDelayMs) {
+                transitionDelayMs = _maxTransitionDelayMs;
+            }
         }
         Serial.printf("ch[%u] current:[%u] desired:[%u]\n", ch, currentBri, desiredBri);
         Serial.printf("ch[%u] totalDiff:[%hu] transitionSteps:[%hhu] transitionDelayMs:[%hu]\n", ch, totalDiff, transitionInc, transitionDelayMs);
