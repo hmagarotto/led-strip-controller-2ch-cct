@@ -1,6 +1,6 @@
 #include "HardwareController.h"
-#include "../config/Hardware.h"
-#include "../hardware/LightBase.h"
+#include "config/hardware/Hardware.h"
+#include "hardware/LightBase.h"
 
 
 HardwareController::HardwareController(StateController& stateController):

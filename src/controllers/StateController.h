@@ -4,7 +4,7 @@
 #pragma once
 
 #include <circular_queue/circular_queue.h>
-#include "config/DevicesConfig.h"
+#include "config/hue/DevicesConfig.h"
 
 class StateController: public DevicesConfig
 {

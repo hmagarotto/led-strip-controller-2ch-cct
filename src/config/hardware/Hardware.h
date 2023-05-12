@@ -4,9 +4,9 @@
 #pragma once
 
 #include <array>
-#include "base.h"
-#include "../hardware/LightBase.h"
-#include "../hardware/Switch.h"
+#include "config/base.h"
+#include "hardware/LightBase.h"
+#include "hardware/Switch.h"
 
 extern const std::array<LightBase*, LIGHT_QTY> lights;
 extern const std::array<Switch*, SWITCH_QTY> switches;

@@ -4,7 +4,7 @@
 #include <cstddef>
 #include <lights/LightDevice.h>
 #include <lights/LightState.h>
-#include "base.h"
+#include "config/base.h"
 
 class DevicesConfig {
 public:

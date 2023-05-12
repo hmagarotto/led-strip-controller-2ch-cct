@@ -1,7 +1,7 @@
 #include <Arduino.h>
 #include "Hardware.h"
-#include "../hardware/CCTLight.h"
-#include "../hardware/DimmableLight.h"
+#include "hardware/CCTLight.h"
+#include "hardware/DimmableLight.h"
 
 const std::array<LightBase*, 2> lights =  {
   new DimmableLight(4, false),
