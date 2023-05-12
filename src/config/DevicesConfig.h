@@ -4,10 +4,11 @@
 #include <cstddef>
 #include <lights/LightDevice.h>
 #include <lights/LightState.h>
+#include "base.h"
 
 class DevicesConfig {
 public:
-  static constexpr uint8_t lightNum = 2;
+  static constexpr uint8_t lightNum = LIGHT_QTY;
   static const LightDevice lightDeviceList[lightNum];
 
 protected:
@@ -15,8 +16,7 @@ protected:
   LightState updateLightState(uint8_t index, LightState& update, uint8_t fields);
 
 private:
-  static LightState lightStateList[DevicesConfig::lightNum];
+  static LightState lightStateList[lightNum];
 };
-
 
 #endif

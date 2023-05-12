@@ -2,8 +2,8 @@
 #include "DevicesConfig.h"
 
 const LightDevice DevicesConfig::lightDeviceList[DevicesConfig::lightNum] = {
-    { name: "Desk led light",       uniqueid: "00:17:88:01:00:11:ed:b3-0b" }, 
-    { name: "Ceiling led light",    uniqueid: "00:17:88:01:00:c0:6d:03-0b" }
+    { name: "kitchen bench light",  uniqueid: "00:17:88:f1:00:11:ed:b3-0b" }, 
+    { name: "kitchen stove light",  uniqueid: "00:17:88:a1:00:c0:6d:03-0b" }
 };
 
 LightState DevicesConfig::lightStateList[DevicesConfig::lightNum] = {};
