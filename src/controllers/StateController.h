@@ -18,6 +18,7 @@ public:
         REST,
         UDP,
         MQTT,
+        SWITCH,
     };
     struct StateChangeEvent {
         StateChangeSource source;
@@ -28,6 +29,7 @@ public:
     LightState getLightState(uint8_t index) {
         return DevicesConfig::getLightState(index);
     }
+    void toggleAllLightState(StateChangeSource changeSource);
     LightState updateLightState(StateChangeSource changeSource, uint8_t index, LightState& update, uint8_t fields);
     typedef std::function<void(const StateChangeEvent& event)> StateChangeHandlerFunction;
     void subscribe(StateChangeHandlerFunction handler);

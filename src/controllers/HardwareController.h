@@ -3,6 +3,7 @@
 
 #pragma once
 
+#include <cstdint>
 #include "StateController.h"
 
 class HardwareController
@@ -15,7 +16,8 @@ public:
 
 private:
     StateController& _stateController;
-    void stateChange(const StateController::StateChangeEvent& event);
+    void lightStateChange(const StateController::StateChangeEvent& event);
+    void switchStateChange(uint8_t index, int state);
 
 };
 
