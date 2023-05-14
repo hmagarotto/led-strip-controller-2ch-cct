@@ -11,6 +11,7 @@
 #include "controllers/HueBridgeController.h"
 
 AsyncWebServer server(80);
+ConfigController configController(&server);
 StateController stateController;
 HardwareController hardwareController(stateController);
 HueBridgeController hueController(&server, stateController, "ATHOM Hue Bridge");
@@ -23,13 +24,20 @@ void setup() {
   analogWriteFreq(977);
   analogWriteResolution(10);
 
-  WiFi.mode(WIFI_STA);
+  Serial.println("Starting FS.");
+  if (!LittleFS.begin()) {
+    Serial.println("Failed to start FS.");
+  }
 
-  char HOSTNAME[20];
-  sprintf(HOSTNAME, "ATHOM-LED-%X", ESP.getChipId());
-  WiFi.setHostname(HOSTNAME);
+  Serial.println("Loading config");
+  configController.load();
+  Serial.println("Config loaded");
 
   Serial.println("Starting WiFi");
+  char HOSTNAME[20];
+  sprintf(HOSTNAME, "ATHOM-LED-%X", ESP.getChipId());
+  WiFi.mode(WIFI_STA);
+  WiFi.setHostname(HOSTNAME);
   DNSServer dns;
   AsyncWiFiManager wifiManager(&server,&dns);
   if(!wifiManager.autoConnect(HOSTNAME)) {
@@ -49,6 +57,7 @@ void setup() {
     request->send(200, "text/plain", "Hi! This is a sample response updated 3.");
   });
 
+  configController.setup();
   hardwareController.setup();
   hueController.setup();
   AsyncElegantOTA.begin(&server);    // Start AsyncElegantOTA
