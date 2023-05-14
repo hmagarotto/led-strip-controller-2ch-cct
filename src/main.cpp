@@ -6,16 +6,20 @@
 #include <ESPAsyncWiFiManager.h>
 #include <AsyncElegantOTA.h>
 
+#include "config/ConfigController.h"
+#include "hue/HueDevices.h"
+#include "hardware/Hardware.h"
 #include "controllers/StateController.h"
 #include "controllers/HardwareController.h"
 #include "controllers/HueBridgeController.h"
 
 AsyncWebServer server(80);
 ConfigController configController(&server);
-StateController stateController;
-HardwareController hardwareController(stateController);
-HueBridgeController hueController(&server, stateController, "ATHOM Hue Bridge");
-
+HueDevices hueDevices;
+Hardware hardware;
+StateController stateController(hueDevices);
+HardwareController hardwareController(hardware, stateController);
+HueBridgeController hueController(hueDevices, &server, stateController, "ATHOM Hue Bridge");
 
 void setup() {
   Serial.begin(115200);
@@ -24,6 +28,11 @@ void setup() {
   analogWriteFreq(977);
   analogWriteResolution(10);
 
+  for (int i=0; i<5; i++) {
+    Serial.println(i);
+    delay(1000);
+  }
+
   Serial.println("Starting FS.");
   if (!LittleFS.begin()) {
     Serial.println("Failed to start FS.");
@@ -31,6 +40,8 @@ void setup() {
 
   Serial.println("Loading config");
   configController.load();
+  hueDevices.setup(configController.getConfig());
+  hardware.setup(configController.getConfig());
   Serial.println("Config loaded");
 
   Serial.println("Starting WiFi");
@@ -45,7 +56,6 @@ void setup() {
         delay(10000);
         ESP.restart();
   }
-
   Serial.println("WiFi Connected");
 
   DefaultHeaders::Instance().addHeader("Access-Control-Allow-Origin", "*");

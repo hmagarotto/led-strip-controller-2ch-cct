@@ -1,6 +1,7 @@
 #include "StateController.h"
 
-StateController::StateController() :
+StateController::StateController(HueDevices& hueDevices) :
+  _hueDevices(hueDevices),
   _changeQueue(32)
 {
   _changeListeners.reserve(10);
@@ -12,19 +13,19 @@ StateController::~StateController()
 
 void StateController::toggleAllLightState(StateChangeSource changeSource) {
   auto hasLightOn = false;
-  for (size_t index = 0; index<DevicesConfig::lightNum; index++) {
-    auto state=DevicesConfig::getLightState(index);
+  for (size_t index = 0; index<_hueDevices.getLightNum(); index++) {
+    auto state=_hueDevices.getLightState(index);
     hasLightOn = state.on || hasLightOn;
   }
   LightState update = { on: !hasLightOn };
   uint8_t fields = LightStateUpdateField::on;
-  for (size_t index = 0; index<DevicesConfig::lightNum; index++) {
+  for (size_t index = 0; index<_hueDevices.getLightNum(); index++) {
     updateLightState(changeSource, index, update, fields);
   }
 }
 
 LightState StateController::updateLightState(StateChangeSource changeSource, uint8_t index, LightState& update, uint8_t fields) {
-  auto newState = DevicesConfig::updateLightState(index, update, fields);
+  auto newState = _hueDevices.updateLightState(index, update, fields);
   while(!_changeQueue.push({changeSource, index, newState })) {
     // ensure enqueuing of last status, even if we miss some changes
     _changeQueue.pop();

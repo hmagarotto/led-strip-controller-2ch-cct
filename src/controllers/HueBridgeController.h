@@ -9,7 +9,7 @@
 
 class HueBridgeController : public HueBridgeServer {
 public:
-    HueBridgeController(AsyncWebServer *server, StateController& stateController, String&& name);
+    HueBridgeController(HueDevices& hueDevices, AsyncWebServer* server, StateController& stateController, String&& name);
     virtual ~HueBridgeController();
 
     virtual LightState getLightState(uint8_t id);
@@ -17,6 +17,7 @@ public:
     virtual const LightDevice* getLightDevice(uint8_t id);
     virtual uint8_t getLightDeviceNum();
 protected:
+    HueDevices& _hueDevices;
     StateController& _stateController;
 };
 

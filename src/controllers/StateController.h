@@ -4,12 +4,12 @@
 #pragma once
 
 #include <circular_queue/circular_queue.h>
-#include "config/hue/DevicesConfig.h"
+#include "hue/HueDevices.h"
 
-class StateController: public DevicesConfig
+class StateController
 {
 public:
-    StateController();
+    StateController(HueDevices& hueDevices);
     ~StateController();
     bool run();
 
@@ -27,7 +27,7 @@ public:
     };
 
     LightState getLightState(uint8_t index) {
-        return DevicesConfig::getLightState(index);
+        return _hueDevices.getLightState(index);
     }
     void toggleAllLightState(StateChangeSource changeSource);
     LightState updateLightState(StateChangeSource changeSource, uint8_t index, LightState& update, uint8_t fields);
@@ -35,6 +35,7 @@ public:
     void subscribe(StateChangeHandlerFunction handler);
 
 private:
+    HueDevices& _hueDevices;
     circular_queue<StateChangeEvent> _changeQueue;
     std::vector<StateChangeHandlerFunction> _changeListeners;
 };
