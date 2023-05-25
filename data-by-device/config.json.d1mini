@@ -1,0 +1,16 @@
+{
+    "hardware": {
+        "lights": [{
+            "type": "DIMMABLE",
+            "friendlyName": "Module LED",
+            "uniqueId": "00:17:88:47:10:12:ed:b3-0b",
+            "pins": [2],
+            "inversePolarity": [true],
+            "powerOnState": "OFF"
+        }],
+        "switches": []
+    },
+    "sync": {
+        "lights": []
+    }
+}
