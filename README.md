@@ -33,6 +33,7 @@ A firmware project to control 2 CCT lights using the [Athom RGBW controller](htt
 * Other projects for reference
     * https://github.com/esphome/esphome
     * https://github.com/arendst/Tasmota
+    * https://github.com/Aircoookie/WLED
     * https://github.com/diyhue/diyHue
     * https://github.com/diyhue/Lights
     * https://github.com/Aircoookie/Espalexa
