@@ -1,0 +1,16 @@
+{
+    "hardware": {
+        "lights": [{
+            "type": "CCT",
+            "friendlyName": "Luz de Teto 2",
+            "uniqueId": "00:17:88:01:10:12:ed:b3-0b",
+            "pins": [4, 14],
+            "inversePolarity": [false, false],
+            "powerOnState": "OFF"
+        }],
+        "switches": []
+    },
+    "sync": {
+        "lights": []
+    }
+}

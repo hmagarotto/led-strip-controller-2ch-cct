@@ -1,0 +1,27 @@
+{
+    "hardware": {
+        "lights": [{
+            "type": "DIMMABLE",
+            "friendlyName": "Luz do Fogão",
+            "uniqueId": "00:17:88:f1:00:11:ed:b3-0b",
+            "pins": [4],
+            "inversePolarity": [false],
+            "powerOnState": "OFF"
+        }, {
+            "type": "DIMMABLE",
+            "friendlyName": "Luz da Pia",
+            "uniqueId": "00:17:88:a1:00:c0:6d:03-0b",
+            "pins": [14],
+            "inversePolarity": [false],
+            "powerOnState": "OFF"
+        }],
+        "switches": [{
+            "pin": 13,
+            "inversePolarity": true,
+            "action": "TOGGLE_ALL_LIGHTS"
+        }]
+    },
+    "sync": {
+        "lights": []
+    }
+}

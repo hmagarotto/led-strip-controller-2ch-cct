@@ -1,0 +1,21 @@
+{
+    "hardware": {
+        "lights": [{
+            "type": "CCT",
+            "friendlyName": "Luz de Cabeceira",
+            "uniqueId": "00:17:88:01:15:12:ed:b3-0b",
+            "pins": [4, 14],
+            "inversePolarity": [false, false],
+            "powerOnState": "OFF"
+        }],
+        "switches": [{
+            "pin": 0,
+            "pushButton": true,
+            "inversePolarity": true,
+            "action": "TOGGLE_ALL_LIGHTS"
+        }]
+    },
+    "sync": {
+        "lights": []
+    }
+}
