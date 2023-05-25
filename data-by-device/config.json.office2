@@ -8,7 +8,12 @@
             "inversePolarity": [false, false],
             "powerOnState": "OFF"
         }],
-        "switches": []
+        "switches": [{
+            "pin": 0,
+            "pushButton": true,
+            "inversePolarity": true,
+            "action": "TOGGLE_ALL_LIGHTS"
+        }]
     },
     "sync": {
         "lights": []

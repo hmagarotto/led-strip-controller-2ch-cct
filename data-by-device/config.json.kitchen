@@ -2,7 +2,7 @@
     "hardware": {
         "lights": [{
             "type": "DIMMABLE",
-            "friendlyName": "Luz do Fogão",
+            "friendlyName": "Luz do Fogao",
             "uniqueId": "00:17:88:f1:00:11:ed:b3-0b",
             "pins": [4],
             "inversePolarity": [false],
@@ -17,6 +17,11 @@
         }],
         "switches": [{
             "pin": 13,
+            "inversePolarity": true,
+            "action": "TOGGLE_ALL_LIGHTS"
+        }, {
+            "pin": 0,
+            "pushButton": true,
             "inversePolarity": true,
             "action": "TOGGLE_ALL_LIGHTS"
         }]
