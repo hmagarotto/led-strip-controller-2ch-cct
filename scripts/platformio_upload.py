@@ -27,6 +27,11 @@ except ImportError:
 
 def on_upload(source, target, env):
     firmware_path = str(source[0])
+    target_str = str(target[0])
+
+    print("target", target[0])
+
+    firmware_type = "filesystem" if (target_str == "uploadfs" or target_str == "uploadfsota") else "firmware";
     upload_url = env.GetProjectOption('custom_upload_url')
 
     with open(firmware_path, 'rb') as firmware:
@@ -34,7 +39,7 @@ def on_upload(source, target, env):
         firmware.seek(0)
         encoder = MultipartEncoder(fields={
             'MD5': md5, 
-            'firmware': ('firmware', firmware, 'application/octet-stream')}
+            firmware_type: (firmware_type, firmware, 'application/octet-stream')}
         )
 
         bar = tqdm(desc='Upload Progress',
