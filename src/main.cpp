@@ -25,7 +25,8 @@ void setup() {
   Serial.begin(115200);
   Serial.println("Booting");
 
-  analogWriteFreq(977);
+  // analogWriteFreq(977);
+  analogWriteFreq(1021);
   analogWriteResolution(10);
 
   for (int i=0; i<5; i++) {
