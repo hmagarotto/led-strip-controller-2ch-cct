@@ -9,7 +9,8 @@ A firmware project to control 2 CCT lights using the [Athom RGBW controller](htt
     - [ ] Replace AsyncElegantOTA
 - [ ] WDT
 - [ ] Hue discovery
-    - [X] SSDP
+    - [X] SSDP SEARCH
+    - [ ] SSDP NOTIFY
     - [ ] mDNS
 - [X] Hue API
 - [X] Light devices
