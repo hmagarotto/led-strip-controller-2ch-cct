@@ -20,7 +20,7 @@ void DimmableLight::setup() {
 
 void DimmableLight::setState(const LightState& state) {
     _on = state.on;
-    _desiredBri = map(state.bri, 0, 255, 0, 1024);
+    _desiredBri = map(state.bri, 0, 255, 0, 1023);
     uint16_t totalDiff = 0;
     if (_on) {
         totalDiff =  abs(_desiredBri - _currentBri);
@@ -85,8 +85,8 @@ bool DimmableLight::run() {
 }
 
 void DimmableLight::setHardware() {
-    Serial.println(_currentBri);
     int bri = pgm_read_word(&gamma_correction::lut[_currentBri]);
     int pwmValue = _inversePolarity ? gamma_correction::max - bri : bri;
+    Serial.printf("bri[%04hd] pwm[%d]\r\n", _currentBri, pwmValue);
     analogWriteMode(_pin, pwmValue, _inversePolarity);
 }

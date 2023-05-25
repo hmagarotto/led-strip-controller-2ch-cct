@@ -44,8 +44,8 @@ void CCTLight::setState(const LightState& state) {
     cw = (state.bri * cw) / 255;
 
     // desired
-    _state[channel_ww].desiredBri = map(ww, 0, 255, 0, 1024);
-    _state[channel_cw].desiredBri = map(cw, 0, 255, 0, 1024);
+    _state[channel_ww].desiredBri = map(ww, 0, 255, 0, 1023);
+    _state[channel_cw].desiredBri = map(cw, 0, 255, 0, 1023);
 
     // transition control
     for (size_t ch=0; ch<channels; ch++) {
