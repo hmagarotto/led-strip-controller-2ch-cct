@@ -29,11 +29,6 @@ void setup() {
   analogWriteFreq(1021);
   analogWriteResolution(10);
 
-  for (int i=0; i<5; i++) {
-    Serial.println(i);
-    delay(1000);
-  }
-
   Serial.println("Starting FS.");
   if (!LittleFS.begin()) {
     Serial.println("Failed to start FS.");
@@ -63,10 +58,6 @@ void setup() {
   DefaultHeaders::Instance().addHeader("Access-Control-Allow-Headers", "*");
   DefaultHeaders::Instance().addHeader("Access-Control-Allow-Methods", "*");
   DefaultHeaders::Instance().addHeader("Access-Control-Expose-Headers", "*");
-
-  server.on("/", HTTP_GET, [](AsyncWebServerRequest *request) {
-    request->send(200, "text/plain", "Hi! This is a sample response updated 3.");
-  });
 
   configController.setup();
   hardwareController.setup();
