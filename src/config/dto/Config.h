@@ -35,6 +35,7 @@ struct Light {
 
 struct Switch {
     uint8_t pin;
+    bool pushButton;
     bool inversePolarity;
     SwitchAction action;
 };

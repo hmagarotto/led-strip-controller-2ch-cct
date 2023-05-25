@@ -1,8 +1,8 @@
 #include <Arduino.h>
 #include "Switch.h"
 
-Switch::Switch(uint8_t pin, uint8_t mode, bool inversePolarity, uint16_t debouncingTimeMs):
-    _pin(pin), _mode(mode), _inversePolarity(inversePolarity), _debouncingTimeMs(debouncingTimeMs)
+Switch::Switch(uint8_t pin, uint8_t mode, bool pushButton, bool inversePolarity, uint16_t debouncingTimeMs):
+    _pin(pin), _mode(mode), _pushButton(pushButton), _inversePolarity(inversePolarity), _debouncingTimeMs(debouncingTimeMs)
 {
 }
 
@@ -26,8 +26,9 @@ bool Switch::run() {
             auto diff = millis() - _debouncingStartTime;
             if (diff >= _debouncingTimeMs) {
                 _inDebouncing = false;
+                auto invokeCallback =  !_pushButton || (actualState != _inversePolarity && _lastState == _inversePolarity);
                 _lastState = actualState;
-                if (_changeCallback) {
+                if (_changeCallback && invokeCallback) {
                     _changeCallback(_lastState);
                 }
             }

@@ -11,7 +11,7 @@ class Switch
 public:
     typedef std::function<void(int state)> SwitchStateChange;
 
-    Switch(uint8_t pin, uint8_t mode, bool inversePolarity = false, uint16_t debouncingTimeMs = 30);
+    Switch(uint8_t pin, uint8_t mode, bool pushButton = false, bool inversePolarity = false, uint16_t debouncingTimeMs = 30);
     virtual ~Switch();
 
     virtual void setup(SwitchStateChange changeCallback);
@@ -21,6 +21,7 @@ protected:
     // config
     uint8_t _pin;
     uint8_t _mode;
+    bool _pushButton;
     bool _inversePolarity;
     uint16_t _debouncingTimeMs;
 

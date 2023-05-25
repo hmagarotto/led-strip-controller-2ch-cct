@@ -38,7 +38,7 @@ void Hardware::setup(const Config::DTO::Config& config) {
 
   for (auto sw : config.hardware.switches) {
     // TODO: allow to configure mode/debouncing
-    Switch* hardwareSw = new Switch(sw.pin, INPUT_PULLUP, sw.inversePolarity);
+    Switch* hardwareSw = new Switch(sw.pin, INPUT_PULLUP, sw.pushButton, sw.inversePolarity);
     switches.push_back(hardwareSw);
   }
   switches.shrink_to_fit();

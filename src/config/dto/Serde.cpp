@@ -40,6 +40,7 @@ bool convertToJson(const Config::DTO::Config& config, JsonVariant json) {
     int switchIndex = 0;
     for (auto sw : config.hardware.switches) {
         json["hardware"]["switches"][switchIndex]["pin"] = sw.pin;
+        json["hardware"]["switches"][switchIndex]["pushButton"] = sw.pushButton;
         json["hardware"]["switches"][switchIndex]["inversePolarity"] = sw.inversePolarity;
         switch (sw.action) {
             case Config::DTO::SwitchAction::TOGGLE_ALL_LIGHTS:
@@ -95,6 +96,7 @@ void convertFromJson(JsonVariantConst& json, Config::DTO::Config& config) {
     for (auto switchJson : switches) {
         Config::DTO::Switch sw;
         sw.pin = switchJson["pin"];
+        sw.pushButton = switchJson["pushButton"];
         sw.inversePolarity = switchJson["inversePolarity"];
         if (switchJson["action"] == "TOGGLE_ALL_LIGHTS") {
             sw.action = Config::DTO::SwitchAction::TOGGLE_ALL_LIGHTS;
