@@ -31,12 +31,13 @@ A firmware project to control 2 CCT lights using the [Athom RGBW controller](htt
     * https://github.com/alanswx/ESPAsyncWiFiManager
     * https://github.com/ayushsharma82/AsyncElegantOTA
 * Other projects for reference
+    * https://github.com/esphome/esphome
+    * https://github.com/arendst/Tasmota
     * https://github.com/diyhue/diyHue
     * https://github.com/diyhue/Lights
     * https://github.com/Aircoookie/Espalexa
     * https://github.com/vintlabs/fauxmoESP
     * https://github.com/xoseperez/espurna
-    * https://github.com/arendst/Tasmota
 * Tutorials
     * https://randomnerdtutorials.com/esp8266-nodemcu-ota-over-the-air-vs-code/
     * https://randomnerdtutorials.com/esp8266-nodemcu-vs-code-platformio-littlefs/
