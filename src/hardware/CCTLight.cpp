@@ -146,9 +146,9 @@ void CCTLight::setHardware(size_t ch) {
         _state[ch].currentBri;
     int pwmValue = _inversePolarity[ch] ? 1023 - bri : bri;
     if (pwmValue == 0) {
-        digitalWrite(_pin[ch], _inversePolarity[ch]);
+        digitalWrite(_pin[ch], LOW);
     } else if (pwmValue == 1023) {
-        digitalWrite(_pin[ch], !_inversePolarity[ch]);
+        digitalWrite(_pin[ch], HIGH);
     } else {
         analogWriteMode(_pin[ch], pwmValue, _inversePolarity[ch]);
     }

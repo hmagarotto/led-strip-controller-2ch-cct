@@ -89,9 +89,9 @@ void DimmableLight::setHardware() {
     int pwmValue = _inversePolarity ? gamma_correction::max - bri : bri;
     Serial.printf("bri[%04hd] pwm[%04d]\r\n", _currentBri, pwmValue);
     if (pwmValue == 0) {
-        digitalWrite(_pin, _inversePolarity);
+        digitalWrite(_pin, LOW);
     } else if (pwmValue == 1023) {
-        digitalWrite(_pin, !_inversePolarity);
+        digitalWrite(_pin, HIGH);
     } else {
         analogWriteMode(_pin, pwmValue, _inversePolarity);
     }
