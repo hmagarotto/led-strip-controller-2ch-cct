@@ -3,14 +3,14 @@
         "lights": [{
             "type": "DIMMABLE",
             "friendlyName": "Luz do Fogao",
-            "uniqueId": "00:17:88:f1:00:11:ed:b3-0b",
+            "uniqueId": "00:17:88:f1:a9:11:ed:b3-0b",
             "pins": [4],
             "inversePolarity": [false],
             "powerOnState": "OFF"
         }, {
             "type": "DIMMABLE",
             "friendlyName": "Luz da Pia",
-            "uniqueId": "00:17:88:a1:00:c0:6d:03-0b",
+            "uniqueId": "00:17:88:a1:a8:c0:6d:03-0b",
             "pins": [14],
             "inversePolarity": [false],
             "powerOnState": "OFF"
