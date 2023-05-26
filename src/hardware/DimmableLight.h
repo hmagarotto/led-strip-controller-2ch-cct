@@ -22,7 +22,7 @@ protected:
     uint8_t _pin;
     bool _inversePolarity;
     uint16_t _transitionTimeMs;
-    static constexpr uint16_t _maxTransitionDelayMs = 100;
+    static constexpr uint16_t _maxTransitionDelayMs = 50;
 
     // control
     bool _running = false;

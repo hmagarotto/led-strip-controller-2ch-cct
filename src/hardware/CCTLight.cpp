@@ -145,5 +145,11 @@ void CCTLight::setHardware(size_t ch) {
         pgm_read_word(&gamma_correction::lut[_state[ch].currentBri]) :
         _state[ch].currentBri;
     int pwmValue = _inversePolarity[ch] ? 1023 - bri : bri;
-    analogWriteMode(_pin[ch], pwmValue, _inversePolarity[ch]);
+    if (pwmValue == 0) {
+        digitalWrite(_pin[ch], _inversePolarity[ch]);
+    } else if (pwmValue == 1023) {
+        digitalWrite(_pin[ch], !_inversePolarity[ch]);
+    } else {
+        analogWriteMode(_pin[ch], pwmValue, _inversePolarity[ch]);
+    }
 }

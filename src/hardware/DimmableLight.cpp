@@ -87,6 +87,13 @@ bool DimmableLight::run() {
 void DimmableLight::setHardware() {
     int bri = pgm_read_word(&gamma_correction::lut[_currentBri]);
     int pwmValue = _inversePolarity ? gamma_correction::max - bri : bri;
-    Serial.printf("bri[%04hd] pwm[%d]\r\n", _currentBri, pwmValue);
-    analogWriteMode(_pin, pwmValue, _inversePolarity);
+    Serial.printf("bri[%04hd] pwm[%04d]\r\n", _currentBri, pwmValue);
+    if (pwmValue == 0) {
+        digitalWrite(_pin, _inversePolarity);
+    } else if (pwmValue == 1023) {
+        digitalWrite(_pin, !_inversePolarity);
+    } else {
+        analogWriteMode(_pin, pwmValue, _inversePolarity);
+    }
+
 }
