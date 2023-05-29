@@ -46,8 +46,14 @@ struct Hardware
     std::vector<Switch> switches;
 };
 
-struct Sync {
+struct LightSync {
+    uint8_t lightIndex;
+    uint8_t remoteLightIndex;
+    uint8_t remoteMAC[6];
+};
 
+struct Sync {
+    std::vector<LightSync> lights;
 };
 
 struct Config

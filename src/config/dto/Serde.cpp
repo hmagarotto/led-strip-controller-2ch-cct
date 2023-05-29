@@ -48,6 +48,24 @@ bool convertToJson(const Config::DTO::Config& config, JsonVariant json) {
                 break;
         }
     }
+    
+    lightIndex = 0;
+    for (auto light : config.sync.lights) {
+        char mac[24];
+        sprintf(mac, "%02hhx:%02hhx:%02hhx:%02hhx:%02hhx:%02hhx",
+            light.remoteMAC[0],
+            light.remoteMAC[1],
+            light.remoteMAC[2],
+            light.remoteMAC[3],
+            light.remoteMAC[4],
+            light.remoteMAC[5]
+        );
+        json["sync"]["lights"][lightIndex]["remoteMAC"] = String(mac);
+        json["sync"]["lights"][lightIndex]["lightIndex"] = light.lightIndex;
+        json["sync"]["lights"][lightIndex]["remoteLightIndex"] = light.remoteLightIndex;
+    }
+
+    
     return true;
 }
 
@@ -90,6 +108,7 @@ void convertFromJson(JsonVariantConst& json, Config::DTO::Config& config) {
         config.hardware.lights.push_back(light);
     }
     config.hardware.lights.shrink_to_fit();
+
     auto switches = json["hardware"]["switches"].as<JsonArrayConst>();
     config.hardware.switches.clear();
     config.hardware.switches.reserve(4);
@@ -104,4 +123,24 @@ void convertFromJson(JsonVariantConst& json, Config::DTO::Config& config) {
         config.hardware.switches.push_back(sw);
     }
     config.hardware.switches.shrink_to_fit();
+
+    auto syncLights = json["sync"]["lights"].as<JsonArrayConst>();
+    config.sync.lights.clear();
+    config.sync.lights.reserve(4);
+    for (auto lightJson : syncLights) {
+        Config::DTO::LightSync light;
+        light.lightIndex = lightJson["lightIndex"];
+        light.remoteLightIndex = lightJson["remoteLightIndex"];
+        String mac = lightJson["remoteMAC"];
+        sscanf(mac.c_str(), "%02hhx:%02hhx:%02hhx:%02hhx:%02hhx:%02hhx",
+            &light.remoteMAC[0],
+            &light.remoteMAC[1],
+            &light.remoteMAC[2],
+            &light.remoteMAC[3],
+            &light.remoteMAC[4],
+            &light.remoteMAC[5]
+        );
+        config.sync.lights.push_back(light);
+    }
+    config.sync.lights.shrink_to_fit();
 }
