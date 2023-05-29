@@ -16,7 +16,7 @@ public:
     enum StateChangeSource {
         HUE_BRIDGE = 1,
         REST,
-        UDP,
+        SYNC,
         MQTT,
         SWITCH,
     };

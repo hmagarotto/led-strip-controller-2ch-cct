@@ -12,12 +12,14 @@
 #include "controllers/StateController.h"
 #include "controllers/HardwareController.h"
 #include "controllers/HueBridgeController.h"
+#include "controllers/SyncController.h"
 
 AsyncWebServer server(80);
 ConfigController configController(&server);
 HueDevices hueDevices;
 Hardware hardware;
 StateController stateController(hueDevices);
+SyncController* syncController = SyncController::getSingleton(stateController, configController.getConfig().sync);
 HardwareController hardwareController(hardware, stateController);
 HueBridgeController hueController(hueDevices, &server, stateController, "ATHOM Hue Bridge");
 
@@ -43,7 +45,9 @@ void setup() {
   Serial.println("Starting WiFi");
   char HOSTNAME[20];
   sprintf(HOSTNAME, "ATHOM-LED-%X", ESP.getChipId());
-  WiFi.mode(WIFI_STA);
+  // WiFi.mode(WIFI_STA);
+  WiFi.mode(WIFI_AP_STA);
+  WiFi.setSleepMode(WIFI_NONE_SLEEP);
   WiFi.setHostname(HOSTNAME);
   DNSServer dns;
   AsyncWiFiManager wifiManager(&server,&dns);
@@ -62,6 +66,7 @@ void setup() {
   configController.setup();
   hardwareController.setup();
   hueController.setup();
+  syncController->setup();
   AsyncElegantOTA.begin(&server);    // Start AsyncElegantOTA
 
   server.onNotFound([](AsyncWebServerRequest *request) {
