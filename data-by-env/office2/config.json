@@ -16,6 +16,10 @@
         }]
     },
     "sync": {
-        "lights": []
+        "lights": [{
+            "lightIndex": 0,
+            "remoteMAC": "5C:CF:7F:85:EB:8E",
+            "remoteLightIndex": 0
+        }]
     }
 }

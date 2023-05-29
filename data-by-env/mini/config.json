@@ -11,6 +11,10 @@
         "switches": []
     },
     "sync": {
-        "lights": []
+        "lights": [{
+            "lightIndex": 0,
+            "remoteMAC": "34:AB:95:A7:7E:F7",
+            "remoteLightIndex": 0
+        }]
     }
 }
