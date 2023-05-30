@@ -18,7 +18,7 @@
     "sync": {
         "lights": [{
             "lightIndex": 0,
-            "remoteMAC": "5C:CF:7F:85:EB:8E",
+            "remoteMAC": "4C:EB:D6:D3:E0:F3",
             "remoteLightIndex": 0
         }]
     }
